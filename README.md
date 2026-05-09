@@ -1,73 +1,93 @@
-# Fruit-Classifier-CNN
 # 🍎 Fruit Image Classifier with CNNs
 
-## 📌 Project Overview
-This project focuses on building an automated fruit image classification system using **Convolutional Neural Networks (CNNs)**.  
-A **custom CNN** and two **transfer learning models (VGG16 and ResNet-50)** were implemented and compared for a **10-class fruit classification task**.
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-orange)
+![Keras](https://img.shields.io/badge/Keras-API-red)
+![Transfer Learning](https://img.shields.io/badge/Transfer%20Learning-VGG16-success)
 
-The objective is to evaluate model performance and identify the most reliable architecture for real-world applications in **agriculture and supply chain automation**.
+## 📌 Project Overview
+This repository contains a professional, automated fruit image classification system built using **Convolutional Neural Networks (CNNs)**.
+
+A **custom CNN** and two **transfer learning models (VGG16 and ResNet-50)** were explored for a **10-class fruit classification task**. Based on comprehensive evaluation metrics, **VGG16** emerged as the most accurate and reliable architecture, achieving over 97% accuracy.
+
+The objective of this project is to build robust computer vision models applicable to real-world scenarios such as **agriculture automation, retail checkout systems, and supply chain management**.
 
 ---
 
 ## 📂 Dataset
-- **Dataset Used:** Fruits360  
-- Contains labeled images of various fruits captured under controlled conditions  
-- Dataset was split into training, validation, and test sets  
-- Images were preprocessed and augmented to improve generalization
+- **Dataset Used:** [Fruits 360 Dataset](https://github.com/Horea94/Fruit-Images-Dataset) (10 selected classes)
+- Contains labeled images of various fruits captured under controlled conditions.
+- Extensive data augmentation (rotation, shifting, flipping, brightness adjustment, zoom) was applied to the training set to prevent overfitting and improve generalization.
 
 ---
 
-## 🧠 Model Architectures
-Three different models were trained and evaluated:
-
-### 🔹 Custom CNN
-- Built from scratch using convolutional, pooling, and dense layers
-- Lightweight architecture with competitive performance
-- Suitable for environments with limited computational resources
+## 🧠 Model Architecture Focus: VGG16
+While multiple architectures were tested, this repository highlights the fine-tuned **VGG16** model due to its superior performance.
 
 ### 🔹 VGG16 (Transfer Learning)
-- Pre-trained on ImageNet
-- Fine-tuned for fruit classification
-- Achieved the best overall performance across all evaluation metrics
-
-### 🔹 ResNet-50 (Transfer Learning)
-- Deep residual network with skip connections
-- Fine-tuned for multi-class fruit classification
-- Performed competitively but slightly below VGG16
+- Pre-trained on ImageNet.
+- The base convolutional layers were frozen to retain high-level feature extraction capabilities.
+- A custom dense classifier block was added (GlobalAveragePooling -> Dense(512) -> Dropout -> Dense(256) -> Dropout -> Softmax(10)).
+- **Achieved the best overall performance** across all evaluation metrics, excelling at capturing subtle color and texture differences between fruit classes.
 
 ---
 
 ## 📊 Evaluation Metrics
-The models were evaluated using the following metrics:
-- **Accuracy**
-- **Precision (Macro)**
-- **Recall (Macro)**
-- **F1-Score (Macro)**
-- **Confusion Matrix**
+The VGG16 model was evaluated using standard classification metrics:
 
-### 🔎 Performance Comparison
+| Metric       | VGG16 Performance |
+|-------------|-------------------|
+| **Accuracy**    | **97.23%**        |
+| **Precision**   | **97.62%**        |
+| **Recall**      | **96.95%**        |
+| **F1-Score**    | **96.98%**        |
 
-| Metric       | Custom CNN | VGG16 | ResNet-50 |
-|-------------|------------|--------|-----------|
-| Accuracy    | 94.68%     | 97.23% | 94.35%    |
-| Precision   | 95.99%     | 97.62% | 95.30%    |
-| Recall      | 94.16%     | 96.95% | 93.80%    |
-| F1-Score    | 93.86%     | 96.98% | 93.47%    |
+*Note: The Custom CNN (94.68% accuracy) and ResNet-50 (94.35% accuracy) implementations are also available for comparison.*
 
 ---
 
-## 📈 Results & Observations
-- **VGG16** consistently outperformed other models across all metrics
-- **Custom CNN** provided strong performance with lower computational cost
-- **ResNet-50** achieved respectable results but slightly lagged behind
+## ⚙️ Repository Structure
 
-Confusion matrices and comparative plots were used to analyze per-class performance and model trade-offs.
+```
+Fruit-Classifier-CNN/
+│
+├── src/
+│   ├── __init__.py
+│   ├── config.py           # Hyperparameters and paths
+│   ├── data_loader.py      # Image generators and augmentation
+│   ├── models.py           # Model definitions (VGG16)
+│   ├── train.py            # Training pipeline with callbacks
+│   └── evaluate.py         # Testing and metrics generation
+│
+├── notebooks/
+│   └── Capstone_Project.ipynb  # Original research notebook
+│
+├── requirements.txt        # Python dependencies
+└── README.md
+```
 
----
+## 🚀 Setup Instructions
 
-## ⚙️ Setup Instructions
-
+1. **Clone the repository**
 ```bash
-git clone https://github.com/Nidhi310305/Fruit-Classifier-CNN
-Fruit-Classifier-CNN
+git clone https://github.com/Nidhi310305/Fruit-Classifier-CNN.git
+cd Fruit-Classifier-CNN
+```
+
+2. **Install dependencies**
+```bash
 pip install -r requirements.txt
+```
+
+3. **Ensure dataset is in place**
+Place your dataset inside `Fruit_360_Dataset/Training` and `Fruit_360_Dataset/Testing` at the root of the project, or update `src/config.py` to point to your dataset location.
+
+4. **Train the model**
+```bash
+python -m src.train
+```
+
+5. **Evaluate the model**
+```bash
+python -m src.evaluate
+```
